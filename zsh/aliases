@@ -2,10 +2,14 @@
 alias ..='cd ..'
 
 # ls
-alias ls="ls -F"
-alias l="ls -lAh"
-alias ll="ls -l"
-alias la='ls -A'
+#alias ls="ls -F"
+alias l="ls -lG"
+alias ll="ls -lAhG"
+alias la='ls -AG'
+
+# search
+#alias s="find . | xargs grep -n --color"
+alias s='echo ---------------; ~/bin/ack -a --color-filename="bold yellow" --color-match=magenta'
 
 # git
 alias gl='git pull'
@@ -30,3 +34,46 @@ alias rst='touch tmp/restart.txt'
 
 # commands starting with % for pasting from web
 alias %=' '
+
+# Utility
+alias reload='source ~/code/dotfiles/zsh/aliases'
+alias ea='mate -w ~/code/dotfiles/zsh/aliases && reload' # Edit aliases
+alias ee="mate ~/code/dotfiles/bash/env"
+
+# From http://github.com/suztomo/dotfiles
+function rmf(){
+    for file in $*
+    do
+        __rm_single_file $file
+    done
+}
+
+function __rm_single_file(){
+    if ! [ -d ~/.Trash/ ]
+    then
+        command /bin/mkdir ~/.Trash
+    fi
+
+    if ! [ $# -eq 1 ]
+    then
+        echo "__rm_single_file: 1 argument required but $# passed."
+        exit
+    fi
+
+    if [ -e $1 ]
+    then
+        BASENAME=`basename $1`
+        NAME=$BASENAME
+        COUNT=0
+        while [ -e ~/.Trash/$NAME ]
+        do
+            COUNT=$(($COUNT+1))
+            NAME="$BASENAME.$COUNT"
+        done
+        
+        echo /bin/mv $1 ~/.Trash/$NAME
+        command /bin/mv $1 ~/.Trash/$NAME
+    else
+        echo "No such file or directory: $file"
+    fi
+}
