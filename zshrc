@@ -1,7 +1,8 @@
-. ~/.zsh/config
 . ~/.zsh/aliases
 . ~/.zsh/completion
-. ~/.bash/env
+. ~/.zsh/env
+. ~/.zsh/config
+. ~/.ec2/env
 
 # use .localrc for settings specific to one system
 [[ -f ~/.localrc ]] && .  ~/.localrc

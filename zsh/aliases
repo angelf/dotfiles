@@ -2,14 +2,14 @@
 alias ..='cd ..'
 
 # ls
-#alias ls="ls -F"
-alias l="ls -lG"
-alias ll="ls -lAhG"
-alias la='ls -AG'
+alias ls="ls -G"
+alias l="command ls -lG"
+alias ll="command ls -lAhG"
+alias la='command ls -AG'
 
 # search
 #alias s="find . | xargs grep -n --color"
-alias s='echo ---------------; ~/bin/ack -a --color-filename="bold yellow" --color-match=magenta'
+alias s='echo ---------------; ~/bin/ack -a --color-filename="bold yellow" --color-match=magenta --ignore-dir=vendor/rails --ignore-dir=vendor/gems --ignore-dir=vendor/plugins --ignore-dir=lib/fonts '
 
 # git
 alias gl='git pull'
@@ -18,9 +18,23 @@ alias gd='git diff'
 alias gc='git commit'
 alias gca='git commit -a'
 alias gco='git checkout'
+alias gdb='git branchd -d'
 alias gb='git branch'
 alias gs='git status'
 alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
+
+# Commit pending changes and quote all args as message - via peepcode
+function gg() { 
+    git commit -v -a -m "$*"
+}
+
+# create a branch and inmediately checkout to it
+alias gt=git_take
+
+function git_take() {
+  git branch $1
+  git checkout $1
+}
 
 # rails
 alias sc='script/console'
@@ -35,10 +49,13 @@ alias rst='touch tmp/restart.txt'
 # commands starting with % for pasting from web
 alias %=' '
 
-# Utility
+# meta
 alias reload='source ~/code/dotfiles/zsh/aliases'
 alias ea='mate -w ~/code/dotfiles/zsh/aliases && reload' # Edit aliases
 alias ee="mate ~/code/dotfiles/bash/env"
+alias ec="mate ~/.ssh/config"
+alias el="mate ~/.localrc"
+alias sa="alias | grep"
 
 # From http://github.com/suztomo/dotfiles
 function rmf(){
@@ -77,3 +94,37 @@ function __rm_single_file(){
         echo "No such file or directory: $file"
     fi
 }
+
+
+
+# Common -- Some are from Damian Conway -- via peepcode
+
+#alias c='clear'
+alias cdd='cd -'  # goto last dir cd'ed from
+alias cl='clear; l'
+function cdc() { 
+    cd $1; ls -G
+}
+alias cls='clear; ls -G'
+alias h='history'
+alias hs="history | grep"
+alias c='cd_code'
+function cd_code { cd ~/code/$1; }
+
+alias md='mkdir -p'
+function take() { 
+    mkdir -p "$1"
+    cd "$1" 
+}
+
+# Finder
+alias o='open . &'
+alias ff='open -a Firefox'
+alias ff='open -a Chrome'
+alias od='open ~/Downloads'
+
+# Processes
+alias tu='top -o cpu' # cpu
+alias tm='top -o vsize' # memory
+
+

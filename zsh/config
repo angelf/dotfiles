@@ -5,6 +5,8 @@ PROMPT='
 %{$fg[green]%}%~ %{$fg_bold[red]%}$(git_info_for_prompt)
 → %{$reset_color%}'
 
+function settitle() { echo -ne "\e]2;$@\a\e]1;$@\a"; }
+
 fpath=(~/.zsh/functions $fpath)
 
 autoload -U ~/.zsh/functions/*(:t)
